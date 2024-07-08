@@ -1,58 +1,29 @@
-import { Fx } from "../fx"
+import { createSmoothTimer } from "../smoothTimer"
+import { gotoPage } from "../gotoPage"
 Page({
-  build() {
+  onInit() {
+              //---------------------------------变量部分-------------------------------------
+              const globalData = getApp()._options.globalData
+              let back = globalData.back
+              //---------------------------------控件部分-------------------------------------
+              if (back) hmApp.goBack()
     hmUI.createWidget(hmUI.widget.IMG, {
       x: 0,
       y: 0,
       src: 'backbround.png'
+    }).addEventListener(hmUI.event.CLICK_UP, function (info) {
+      hmApp.gotoPage({url:'page/GTR3Pro/index'})
     })
-    const group = hmUI.createWidget(hmUI.widget.GROUP,{
-      x: 0,
-      y: 0,
-      w: 192,
-      h: 480
-    })
-    group.createWidget(hmUI.widget.TEXT, {
-      x: 31,
+    hmUI.createWidget(hmUI.widget.IMG, {
+      x: 2,
       y: 180,
-      w: 180,
-      h: 27,
-      color: 0xffffff,
-      text_size: 20,
-      text: '新设计·新体验'
+      src: 'welcome.png'
     })
-    const hyper = group.createWidget(hmUI.widget.TEXT, {
-      x: 16,
-      y: 213,
-      w: 188,
-      h: 84,
-      color: 0xffffff,
-      text_size: 35,
-      text: 'Hyper Box'
-    })
-    group.createWidget(hmUI.widget.TEXT, {
-      x: 78,
-      y: 277,
-      w: 188,
-      h: 84,
-      color: 0xffffff,
-      text_size: 12,
-      text: 'v2.0.0'
-    })
-let fx = new Fx({
-    begin: 0,
-    end: 480,
-    fps: 120,
-    time: 2,
-     style: Fx.Styles.EASE_IN_OUT_QUAD,
-     onStop() {
-       console.log("anim stop");
-     },
-      func: (result) => group.setProperty(hmUI.prop.Y, 480 - result),
-});
-fx.restart();
-hyper.addEventListener(hmUI.event.CLICK_DOWN, function (info) {
-  hmApp.gotoPage({url:'page/GTR3Pro/index'})
-})
+new createSmoothTimer(
+  1000,
+  1000,
+  () => {
+    gotoPage({url:'page/GTR3Pro/index'})
+  })
   }
 })
